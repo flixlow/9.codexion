@@ -20,11 +20,9 @@ $(NAME): $(OBJ)
 
 clean:
 		rm -f $(OBJ) $(DEP)
-		rm -f $(OBJ_BONUS) $(DEP_BONUS)
 
 fclean: clean
 		rm -f $(NAME)
-		rm -f $(NAME_BONUS)
 
 re: fclean all
 

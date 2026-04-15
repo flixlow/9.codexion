@@ -1,2 +1,6 @@
 *.o
 *.d
+coders/*.o
+coders/*.d
+coders/codexion
+.gitignore
