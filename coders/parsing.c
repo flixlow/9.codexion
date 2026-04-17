@@ -6,11 +6,31 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 15:14:57 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 17:53:01 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+int	ft_error(int error)
+{
+	if (error == 0)
+	{
+		fprintf(stderr, "[ERROR] ./codexion <number_of_coders> ");
+		fprintf(stderr, "<time_to_burnout> <time_to_compile> <time_to_debug> ");
+		fprintf(stderr, "<time_to_refactor> <number_of_compiles_required> ");
+		fprintf(stderr, "<dongle_cooldown> <scheduler>\n");
+	}
+	if (error == 1)
+		fprintf(stderr, "[ERROR]: args must be a valid integer >= 0.\n");
+	if (error == 2)
+		fprintf(stderr, "[ERROR]: integer args must be inferior to 9999.\n");
+	if (error == 3)
+		fprintf(stderr, "[ERROR]: occurs when trying to atoi args\n");
+	if (error == 4)
+		fprintf(stderr, "[ERROR]: scheduler must be 'edf' or 'fifo'.\n");
+	return (1);
+}
 
 int	free_all(t_config *config, t_dongle *dongles, t_coder *coders)
 {
@@ -20,7 +40,6 @@ int	free_all(t_config *config, t_dongle *dongles, t_coder *coders)
 		free(dongles);
 	if (coders != NULL)
 		free(coders);
-	printf("Everything has been freed !");
 	return (1);
 }
 
@@ -39,29 +58,20 @@ void	stock_config(char **av, t_config *config)
 int	check_arg(char *arg)
 {
 	int	i;
-	int	n;
 
 	i = 0;
-	n = strlen(arg);
-	while (i < n)
-	{
-		if (!(arg[i] >= '0' && arg[i] <= '9'))
-		{
-			fprintf(stderr, "[ERROR]: %s must be a valid integer >= 0.", arg);
-			return (1);
-		}
-		i++;
-	}
 	if (arg[0] == '0' && !arg[1])
 		return (0);
-	n = atoi(arg);
-	if (n == 0)
+	while (arg[i])
 	{
-		fprintf(stderr, "[ERROR]: Error occurs when trying to atoi: %s", arg);
-		return (1);
+		if (!(arg[i] >= '0' && arg[i] <= '9'))
+			return (ft_error(1));
+		i++;
 	}
-	if (n > 20000)
-		return (1);
+	if (strlen(arg) > 4)
+		return (ft_error(2));
+	if (atoi(arg) == 0)
+		return (ft_error(3));
 	return (0);
 }
 
@@ -71,23 +81,13 @@ int	check_args(int ac, char **av)
 
 	i = 1;
 	if (ac != 9)
-	{
-		fprintf(stderr, "[ERROR] ./codexion <number_of_coders> ");
-		fprintf(stderr, "<time_to_burnout> <time_to_compile> <time_to_debug> ");
-		fprintf(stderr, "<time_to_refactor> <number_of_compiles_required> ");
-		fprintf(stderr, "<dongle_cooldown> <scheduler>");
-		return (1);
-	}
+		return (ft_error(0));
 	while (i <= 7)
 	{
-		if (check_arg(av[i]))
+		if (check_arg(av[i++]))
 			return (1);
-		i++;
 	}
 	if (!(strcmp(av[8], "edf") == 0 || strcmp(av[8], "fifo") == 0))
-	{
-		fprintf(stderr, "[ERROR]: scheduler must be 'edf' or 'fifo'.");
-		return (1);
-	}
+		return (ft_error(4));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:13:53 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 16:27:19 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 17:52:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_coders(t_config config, t_coder *coders, t_dongle *dongles)
 {
-	int i;
+	int	i;
 
 	dongles = malloc(sizeof(t_dongle) * config.number_of_coders);
 	coders = malloc(sizeof(t_coder) * config.number_of_coders);
