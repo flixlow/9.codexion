@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 12:00:18 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:19:48 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,20 @@ typedef struct s_config
 	char	*scheduler;	
 }			t_config;
 
+typedef struct s_coder
+{
+	int		number;
+}			t_coder;
+
+typedef struct s_dongle
+{
+	int		coder_one;
+	int		coder_two;
+}			t_dongle;
+
 int		check_args(int ac, char **av);
 int		check_arg(char *arg);
+int		free_all(t_config *config, t_dongle *dongles, t_coder *coders);
 void	stock_config(char **av, t_config *config);
-void	free_all(t_config *config);
 
 #endif

@@ -6,17 +6,22 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 12:01:26 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 15:14:57 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	free_all(t_config *config)
+int	free_all(t_config *config, t_dongle *dongles, t_coder *coders)
 {
 	if (config != NULL)
 		memset(config, 0, sizeof(t_config));
+	if (dongles != NULL)
+		free(dongles);
+	if (coders != NULL)
+		free(coders);
 	printf("Everything has been freed !");
+	return (1);
 }
 
 void	stock_config(char **av, t_config *config)
