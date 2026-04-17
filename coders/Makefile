@@ -2,9 +2,9 @@ NAME = codexion
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread
+CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
-SRC = main.c 
+SRC = main.c parsing.c 
 
 OBJ = $(SRC:.c=.o)
 
