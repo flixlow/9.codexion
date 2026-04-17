@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 16:19:48 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 19:03:04 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_dongle
 int		check_args(int ac, char **av);
 int		check_arg(char *arg);
 int		free_all(t_config *config, t_dongle *dongles, t_coder *coders);
+int		ft_error(int error);
+int		init_dongles_and_coders(t_config config, t_coder *coders, t_dongle *dongles);
 void	stock_config(char **av, t_config *config);
 
 #endif

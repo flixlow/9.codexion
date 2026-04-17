@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
-SRC = main.c parsing.c 
+SRC = main.c parsing.c error.c
 
 OBJ = $(SRC:.c=.o)
 

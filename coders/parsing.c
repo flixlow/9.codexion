@@ -6,31 +6,11 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 17:53:01 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/17 17:55:13 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-int	ft_error(int error)
-{
-	if (error == 0)
-	{
-		fprintf(stderr, "[ERROR] ./codexion <number_of_coders> ");
-		fprintf(stderr, "<time_to_burnout> <time_to_compile> <time_to_debug> ");
-		fprintf(stderr, "<time_to_refactor> <number_of_compiles_required> ");
-		fprintf(stderr, "<dongle_cooldown> <scheduler>\n");
-	}
-	if (error == 1)
-		fprintf(stderr, "[ERROR]: args must be a valid integer >= 0.\n");
-	if (error == 2)
-		fprintf(stderr, "[ERROR]: integer args must be inferior to 9999.\n");
-	if (error == 3)
-		fprintf(stderr, "[ERROR]: occurs when trying to atoi args\n");
-	if (error == 4)
-		fprintf(stderr, "[ERROR]: scheduler must be 'edf' or 'fifo'.\n");
-	return (1);
-}
 
 int	free_all(t_config *config, t_dongle *dongles, t_coder *coders)
 {
