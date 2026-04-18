@@ -6,22 +6,11 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 17:55:13 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/18 13:35:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-int	free_all(t_config *config, t_dongle *dongles, t_coder *coders)
-{
-	if (config != NULL)
-		memset(config, 0, sizeof(t_config));
-	if (dongles != NULL)
-		free(dongles);
-	if (coders != NULL)
-		free(coders);
-	return (1);
-}
 
 void	stock_config(char **av, t_config *config)
 {
@@ -48,7 +37,7 @@ int	check_arg(char *arg)
 			return (ft_error(1));
 		i++;
 	}
-	if (strlen(arg) > 4)
+	if (strlen(arg) > 9)
 		return (ft_error(2));
 	if (atoi(arg) == 0)
 		return (ft_error(3));

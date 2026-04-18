@@ -6,45 +6,87 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:13:53 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 19:07:52 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:36:29 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	init_dongles_and_coders(t_config config, t_coder *coders, t_dongle *dongles)
+void *routine(void *arg)
 {
-	int	i;
+	t_coder	*coder;
+	int		compil_counter;
 
-	dongles = malloc(sizeof(t_dongle) * config.number_of_coders);
-	coders = malloc(sizeof(t_coder) * config.number_of_coders);
-	if (dongles == NULL || coders == NULL)
-		return (ft_error(5));
-	i = 1;
-	while (i <= config.number_of_coders)
+	coder = (t_coder *)arg;
+	compil_counter = 0;
+	while (!coder->start)
+		usleep(100);
+	while (compil_counter < coder->config.number_of_compiles_required)
 	{
-		dongles[i].coder_one = i;
-		dongles[i].coder_two = i + 1;
-		coders[i].number = i;
+		compil_counter++;
+	}
+	printf("%d ok\n", coder->number);
+	pthread_exit(NULL);
+	return ((void *)0);
+}
+
+int init_thread(t_monitor *monitor)
+{
+	int i;
+	
+	i = 0;
+	while (i < monitor->config.number_of_coders)
+	{
+		if (pthread_create(&monitor->coders[i].thread, NULL, routine, &monitor->coders[i]))
+			return (ft_error(6));
 		i++;
 	}
+	i = 0;
+	while (i < monitor->config.number_of_coders)
+		monitor->coders[i++].start = 1;
+	i = 0;
+	while (i < monitor->config.number_of_coders)
+		pthread_join(monitor->coders[i++].thread, NULL);
 	return (0);
 }
 
-int	main(int ac, char **av)
+int init_dongles_and_coders(t_monitor *monitor)
 {
-	t_config	config;
-	t_dongle	*dongles;
-	t_coder		*coders;
+	int i;
+	int	n_coders;
 
-	dongles = NULL;
-	coders = NULL;
+	i = 0;
+	n_coders = monitor->config.number_of_coders;
+	monitor->dongles = malloc(sizeof(t_dongle) * n_coders);
+	monitor->coders = malloc(sizeof(t_coder) * n_coders);
+	if (monitor->dongles == NULL || monitor->coders == NULL)
+		return (ft_error(5));
+	while (i < (n_coders - 1))
+	{
+		monitor->dongles[i].coder_one = i;
+		monitor->dongles[i].coder_two = i + 1;
+		monitor->coders[i].number = i + 1;
+		i++;
+	}
+	monitor->coders[i].number = i + 1;
+	monitor->dongles[i].coder_one = i;
+	monitor->dongles[i].coder_two = 0;
+	return (0);
+}
+
+int main(int ac, char **av)
+{
+	t_monitor	monitor;
+
+	memset(&monitor, 0, sizeof(t_monitor));
 	if (check_args(ac, av))
-		return (free_all(&config, dongles, coders));
-	stock_config(av, &config);
-	if (init_dongles_and_coders(config, coders, dongles))
-		return (free_all(&config, dongles, coders));
-	free_all(&config, dongles, coders);
+		return (1);
+	stock_config(av, &monitor.config);
+	if (init_dongles_and_coders(&monitor))
+		return (free_all(&monitor));
+	if (init_thread(&monitor))
+		return (free_all(&monitor));
+	free_all(&monitor);
 	printf("\e[1;32m[OK] End of the program.\e[0m");
 	return (0);
 }

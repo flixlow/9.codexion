@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/17 19:03:04 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:34:32 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <string.h> //strlen, memset
 # include <stdlib.h> //malloc, free, atoi
 # include <pthread.h>
+#include <unistd.h> //usleep
+#include <sys/time.h> //gettimeofday
 
 typedef struct s_config
 {
@@ -32,7 +34,10 @@ typedef struct s_config
 
 typedef struct s_coder
 {
-	int		number;
+	int			number;
+	int			start;
+	t_config	config;
+	pthread_t	thread;
 }			t_coder;
 
 typedef struct s_dongle
@@ -41,11 +46,18 @@ typedef struct s_dongle
 	int		coder_two;
 }			t_dongle;
 
+typedef struct s_monitor
+{
+	t_config	config;
+	t_dongle 	*dongles;
+	t_coder 	*coders;
+}			t_monitor;
+
 int		check_args(int ac, char **av);
 int		check_arg(char *arg);
-int		free_all(t_config *config, t_dongle *dongles, t_coder *coders);
+int		free_all(t_monitor *monitor);
 int		ft_error(int error);
-int		init_dongles_and_coders(t_config config, t_coder *coders, t_dongle *dongles);
+int		init_dongles_and_coders(t_monitor *monitor);
 void	stock_config(char **av, t_config *config);
 
 #endif
