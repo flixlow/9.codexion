@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/18 18:34:32 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/19 14:54:54 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <pthread.h>
 #include <unistd.h> //usleep
 #include <sys/time.h> //gettimeofday
+
+typedef struct s_monitor t_monitor;
 
 typedef struct s_config
 {
@@ -37,6 +39,7 @@ typedef struct s_coder
 	int			number;
 	int			start;
 	t_config	config;
+	t_monitor	*monitor;
 	pthread_t	thread;
 }			t_coder;
 
