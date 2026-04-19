@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:13:53 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/19 14:54:22 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/19 14:56:34 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ int init_dongles_and_coders(t_monitor *monitor)
 		return (ft_error(5));
 	while (i < (n_coders - 1))
 	{
+		if (i == (n_coders - 1))
+			monitor->dongles[i].coder_two = 0;
+		else
+			monitor->dongles[i].coder_two = i + 1;	
 		monitor->dongles[i].coder_one = i;
-		monitor->dongles[i].coder_two = i + 1;
 		monitor->coders[i].number = i + 1;
 		i++;
 	}
-	monitor->coders[i].number = i + 1;
-	monitor->dongles[i].coder_one = i;
-	monitor->dongles[i].coder_two = 0;
 	return (0);
 }
 
