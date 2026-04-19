@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/19 14:54:54 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/19 18:22:16 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef struct s_config
 typedef struct s_coder
 {
 	int			number;
-	int			start;
-	t_config	config;
 	t_monitor	*monitor;
 	pthread_t	thread;
 }			t_coder;
@@ -51,9 +49,12 @@ typedef struct s_dongle
 
 typedef struct s_monitor
 {
-	t_config	config;
-	t_dongle 	*dongles;
-	t_coder 	*coders;
+	int				start;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
+	t_config		config;
+	t_dongle 		*dongles;
+	t_coder 		*coders;
 }			t_monitor;
 
 int		check_args(int ac, char **av);
