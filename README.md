@@ -11,3 +11,12 @@ installation appli mindmap sans sudo
 pourquoi moi pthread_create segfault ?
 j arrive pas a print le number of coders dans routine, apres avoir fait passer l adresse de monitor
 hors ia, est ce que je dois envoyer toute la structure globale en argument par thread, ou juste les coders
+peut-on acceder a une meme varialbe a plusieurs threads pour seulement la consulter ?
+man pthread mutex init
+comment utiliser pthread mutex init ?
+mais comment je protège ma variable si c est un pthread mutex_ t?
+mais il verrouille l acces sur tout le code ?
+est ce que si ma variable est protege par un mutex, pour aller lire cette variable par d'autre thread je dois l ouvrir avec des mutex aussi ?
+send code for debugging
+comment ameliorer le start system ?
+utilisation des conditions
