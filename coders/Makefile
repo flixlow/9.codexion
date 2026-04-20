@@ -4,22 +4,20 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
-SRC = main.c parsing.c error.c
+SRC = main.c parsing.c error.c init.c
 
 OBJ = $(SRC:.c=.o)
-
-DEP = $(OBJ:.o=.d)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 		$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.c
-		$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+%.o: %.c codexion.h Makefile
+		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-		rm -f $(OBJ) $(DEP)
+		rm -f $(OBJ)
 
 fclean: clean
 		rm -f $(NAME)

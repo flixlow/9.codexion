@@ -6,22 +6,22 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/18 14:24:42 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 09:19:13 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "codexion.h"
+#include "codexion.h"
 
-int	free_all(t_monitor *monitor)
+int free_all(t_global *global)
 {
-	if (monitor->dongles != NULL)
-		free(monitor->dongles);
-	if (monitor->coders != NULL)
-		free(monitor->coders);
+	if (global->dongles != NULL)
+		free(global->dongles);
+	if (global->coders != NULL)
+		free(global->coders);
 	return (1);
 }
 
-int	ft_error(int error)
+int ft_error(int error)
 {
 	fprintf(stderr, "\e[1;31m[ERROR]: \e[0m");
 	if (error == 0)
