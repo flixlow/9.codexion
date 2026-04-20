@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 15:03:29 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 15:50:36 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void is_refactoring(t_coder *coder)
 void is_compiling(t_coder *coder)
 {
 	printf("%d is compiling\n", coder->name);
+	coder->last_compilation = get_time_ms();
 	usleep(coder->global->config.time_to_compile);
 }
 
@@ -95,7 +96,7 @@ void *routine(void *arg)
 void start(t_global *global)
 {
 	pthread_mutex_lock(&global->mutex);
-	global->start = 1;
+	global->start = get_time_ms();
 	pthread_cond_broadcast(&global->cond);
 	pthread_mutex_unlock(&global->mutex);
 }
