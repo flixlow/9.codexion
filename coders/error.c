@@ -6,13 +6,13 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 09:19:13 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 10:31:58 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int free_all(t_global *global)
+int	free_all(t_global *global)
 {
 	if (global->dongles != NULL)
 		free(global->dongles);
@@ -21,16 +21,14 @@ int free_all(t_global *global)
 	return (1);
 }
 
-int ft_error(int error)
+int	ft_error(int error)
 {
 	fprintf(stderr, "\e[1;31m[ERROR]: \e[0m");
 	if (error == 0)
-	{
-		fprintf(stderr, " ./codexion <number_of_coders> ");
-		fprintf(stderr, "<time_to_burnout> <time_to_compile> <time_to_debug> ");
-		fprintf(stderr, "<time_to_refactor> <number_of_compiles_required> ");
-		fprintf(stderr, "<dongle_cooldown> <scheduler>\n");
-	}
+		fprintf(stderr, "./codexion <number_of_coders> "
+			"<time_to_burnout> <time_to_compile> <time_to_debug> "
+			"<time_to_refactor> <number_of_compiles_required> "
+			"<dongle_cooldown> <scheduler>\n");
 	if (error == 1)
 		fprintf(stderr, "args must be a valid integer >= 0.\n");
 	if (error == 2)
