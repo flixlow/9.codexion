@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 16:24:14 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:02:56 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void *routine(void *arg)
 		is_refactoring(coder);
 		compil_counter++;
 	}
-	printf("[OK] %d has compilied %d times.", coder->name, compil_counter);
+	// printf("[OK] %d has compilied %d times.", coder->name, compil_counter);
 	return (NULL);
 }
 

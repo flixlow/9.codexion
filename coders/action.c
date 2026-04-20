@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 16:47:39 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:16:17 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void print(pthread_mutex_t mutex, long time, int name, char *message)
 {
 	pthread_mutex_lock(&mutex);
-	printf("%ld %d is %sing\n", time, name, message);
+	printf("%ld %d %s\n", time, name, message);
 	pthread_mutex_unlock(&mutex);
 }
 
@@ -25,9 +25,9 @@ void is_debugging(t_coder *coder)
 		coder->global->mutex,
 		get_time_ms() - coder->global->start,
 		coder->name,
-		"debugg"
+		"is debugging"
 	);
-	usleep(coder->global->config.time_to_debug);
+	usleep(coder->global->config.time_to_debug * 1000);
 }	
 
 void is_refactoring(t_coder *coder)
@@ -36,9 +36,9 @@ void is_refactoring(t_coder *coder)
 		coder->global->mutex,
 		get_time_ms() - coder->global->start,
 		coder->name,
-		"refactor"
+		"is refactoring"
 	);
-	usleep(coder->global->config.time_to_refactor);
+	usleep(coder->global->config.time_to_refactor * 1000);
 }
 
 void is_compiling(t_coder *coder)
@@ -46,9 +46,14 @@ void is_compiling(t_coder *coder)
 	long	current_time;
 
 	current_time = get_time_ms() - coder->global->start;
-	print(coder->global->mutex, current_time, coder->name, "compil");
+	print(
+		coder->global->mutex,
+		current_time,
+		coder->name,
+		"is compiling"
+	);
 	coder->last_compilation = current_time;
-	usleep(coder->global->config.time_to_compile);
+	usleep(coder->global->config.time_to_compile * 1000);
 }
 
 void release_dongles(t_coder *coder)
@@ -59,18 +64,24 @@ void release_dongles(t_coder *coder)
 
 void has_taken_a_dongle(t_coder * coder)
 {
+	long	time;
+
 	if (coder->dongle_one->name < coder->dongle_two->name)
 	{
 		pthread_mutex_lock(&coder->dongle_one->mutex);
-		printf("%d has taken a dongle\n", coder->name);
+		time = get_time_ms() - coder->global->start;
+		print(coder->global->mutex, time, coder->name, "has taken a dongle");
+		time = get_time_ms() - coder->global->start;
 		pthread_mutex_lock(&coder->dongle_two->mutex);
-		printf("%d has taken a dongle\n", coder->name);
+		print(coder->global->mutex, time, coder->name, "has taken a dongle");
 	}
 	else
 	{
 		pthread_mutex_lock(&coder->dongle_two->mutex);
-		printf("%d has taken a dongle\n", coder->name);
+		time = get_time_ms() - coder->global->start;
+		print(coder->global->mutex, time, coder->name, "has taken a dongle");
 		pthread_mutex_lock(&coder->dongle_one->mutex);
-		printf("%d has taken a dongle\n", coder->name);
+		time = get_time_ms() - coder->global->start;
+		print(coder->global->mutex, time, coder->name, "has taken a dongle");
 	}
 }
