@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 11:42:11 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 14:09:15 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int init_thread(t_global *global)
 
 int init_dongles_and_coders(t_global *global)
 {
-	int i;
-	int n_coders;
+	int	i;
+	int	n_coders;
+	int	next;
 
 	i = 0;
 	n_coders = global->config.number_of_coders;
@@ -43,12 +44,17 @@ int init_dongles_and_coders(t_global *global)
 		return (ft_error(5));
 	while (i < n_coders)
 	{
-		global->dongles[i] = (t_dongle){0};
-		pthread_mutex_init(&global->dongles[i].mutex, NULL);
-		global->coders[i] = (t_coder){0};
-		global->coders[i].name = i + 1;
+		global->dongles[i].name = i;
+		pthread_mutex_init(&global->dongles[i++].mutex, NULL);		
+	}
+	i = 0;
+	while (i < n_coders)
+	{
+		next = (i + 1) % n_coders;
+		global->coders[i].name = i;
 		global->coders[i].global = global;
-		i++;
+		global->coders[i].dongle_one = &global->dongles[i];
+		global->coders[i++].dongle_two = &global->dongles[next];
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 11:42:21 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 15:06:52 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,33 @@ typedef struct s_config
 	char	*scheduler;
 } t_config;
 
-typedef struct s_coder
-{
-	int			name;
-	t_global	*global;
-	pthread_t	thread;
-} t_coder;
-
 typedef struct s_dongle
 {
-
 	int				name;
 	int				is_available;
 	int				*queue;
 	pthread_mutex_t	mutex;
 } t_dongle;
 
+typedef struct s_coder
+{
+	int			name;
+	int			last_compilation;
+	t_global	*global;
+	pthread_t	thread;
+	t_dongle	*dongle_one;
+	t_dongle	*dongle_two;
+} t_coder;
+
 typedef struct s_global
 {
-	t_config config;
-	t_dongle *dongles;
-	t_coder *coders;
-	pthread_t monitor;
-	pthread_mutex_t mutex;
-	pthread_cond_t cond;
-	int start;
+	t_config		config;
+	t_dongle		*dongles;
+	t_coder			*coders;
+	pthread_t		monitor;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
+	int				start;
 } t_global;
 
 int check_args(int ac, char **av);
