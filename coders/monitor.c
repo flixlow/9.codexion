@@ -6,51 +6,70 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 10:21:14 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 11:50:44 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "codexion.h"
+#include "codexion.h"
+
+void try_to_take_dongles(t_coder * coder)
+{
+	int			next;
+	t_dongle	*dongle_one;
+	t_dongle	*dongle_two;
+
+	next = (coder->name + 1) % coder->global->config.number_of_coders;
+	dongle_one = &coder->global->dongles[coder->name];
+	dongle_two = &coder->global->dongles[next];
+	if (dongle_one->name < dongle_two->name)
+	{
+		printf("%d has taken a dongle\n", coder->name);
+		printf("%d has taken a dongle\n", coder->name);
+	}
+	else
+	{
+		printf("%d has taken a dongle\n", coder->name);
+		printf("%d has taken a dongle\n", coder->name);
+	}
+}
+
+void waiting_to_start(t_global *global)
+{
+	pthread_mutex_lock(&global->mutex);
+	while (global->start == 0)
+		pthread_cond_wait(&global->cond, &global->mutex);
+	pthread_mutex_unlock(&global->mutex);
+}
 
 void *routine(void *arg)
 {
-	t_coder	*coder;
-	int		compil_counter;
+	t_coder		*coder;
+
+	int			compil_counter;
 
 	coder = (t_coder *)arg;
 	compil_counter = 0;
-	pthread_mutex_lock(&coder->global->mutex);
-	while (coder->global->start == 0)
-		pthread_cond_wait(&coder->global->cond, &coder->global->mutex);
-	pthread_mutex_unlock(&coder->global->mutex);
+	waiting_to_start(coder->global);
 	while (compil_counter < coder->global->config.number_of_compiles_required)
 	{
+		try_to_take_dongles(coder);
+		// compile();
+		// release_dongles(coder);
 		compil_counter++;
 	}
-	printf("%d compiles %d times.\n", coder->number, compil_counter);
 	return (NULL);
 }
 
-	// check that no one has burnout
-
-	// try to take dongles
-
-	// need to wait for dongle, mutex and cond
-
-	// succeed for taking dongles
-
-	// wait time to compile time (mark the beginning of the compile)
-
-	// release dongles mutex unlock
-
-	// init dongles colldown
-
-	// wait time to debbug
-
-	// wait time to refactor
-
-	// how to print when multiple thread want to print (mutex on it)
-
+// check that no one has burnout
+// try to take dongles
+// need to wait for dongle, mutex and cond
+// succeed for taking dongles
+// wait time to compile time (mark the beginning of the compile)
+// release dongles mutex unlock
+// init dongles colldown
+// wait time to debbug
+// wait time to refactor
+// how to print when multiple thread want to print (mutex on it)
 
 void start(t_global *global)
 {
@@ -62,7 +81,7 @@ void start(t_global *global)
 
 int monitor(t_global *global)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	start(global);

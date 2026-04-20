@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 10:41:44 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 11:42:21 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,42 @@ typedef struct s_config
 
 typedef struct s_coder
 {
-	int			number;
+	int			name;
 	t_global	*global;
 	pthread_t	thread;
 } t_coder;
 
 typedef struct s_dongle
 {
-	pthread_mutex_t	mutex;
-	pthread_cond_t	cond;
+
+	int				name;
+	int				is_available;
 	int				*queue;
+	pthread_mutex_t	mutex;
 } t_dongle;
 
 typedef struct s_global
 {
-	t_config		config;
-	t_dongle		*dongles;
-	t_coder			*coders;
-	pthread_t		monitor;
-	pthread_mutex_t	mutex;
-	pthread_cond_t	cond;
-	int				start;
+	t_config config;
+	t_dongle *dongles;
+	t_coder *coders;
+	pthread_t monitor;
+	pthread_mutex_t mutex;
+	pthread_cond_t cond;
+	int start;
 } t_global;
 
-int		check_args(int ac, char **av);
-int		check_arg(char *arg);
-void	stock_config(char **av, t_config *config);
+int check_args(int ac, char **av);
+int check_arg(char *arg);
+void stock_config(char **av, t_config *config);
 
-int		free_all(t_global *global);
-int		ft_error(int error);
+int free_all(t_global *global);
+int ft_error(int error);
 
-int		init_dongles_and_coders(t_global *global);
-int		init_thread(t_global *global);
+int init_dongles_and_coders(t_global *global);
+int init_thread(t_global *global);
 
-int		monitor(t_global *global);
-void	*routine(void *arg);
+int monitor(t_global *global);
+void *routine(void *arg);
 
 #endif
