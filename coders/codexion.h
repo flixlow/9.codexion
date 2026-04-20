@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 15:50:13 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/20 16:22:12 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_dongle
 typedef struct s_coder
 {
 	int			name;
-	long			last_compilation;
+	long		last_compilation;
 	t_global	*global;
 	pthread_t	thread;
 	t_dongle	*dongle_one;
@@ -63,19 +63,25 @@ typedef struct s_global
 	long			start;
 } t_global;
 
-int check_args(int ac, char **av);
-int check_arg(char *arg);
-void stock_config(char **av, t_config *config);
+int		check_args(int ac, char **av);
+int		check_arg(char *arg);
+void	stock_config(char **av, t_config *config);
 
-int free_all(t_global *global);
-int ft_error(int error);
+int		free_all(t_global *global);
+int		ft_error(int error);
 
-int init_dongles_and_coders(t_global *global);
-int init_thread(t_global *global);
+int		init_dongles_and_coders(t_global *global);
+int		init_thread(t_global *global);
 
-int monitor(t_global *global);
-void *routine(void *arg);
+int		monitor(t_global *global);
+void	*routine(void *arg);
 
-long get_time_ms(void);
+long	get_time_ms(void);
+
+void	is_debugging(t_coder *coder);
+void	is_refactoring(t_coder *coder);
+void	is_compiling(t_coder *coder);
+void	release_dongles(t_coder *coder);
+void	has_taken_a_dongle(t_coder * coder);
 
 #endif
