@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/18 13:35:47 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:49:44 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	stock_config(char **av, t_config *config)
 {
-	config->number_of_coders = atoi(av[1]);
-	config->time_to_burnout = atoi(av[2]);
-	config->time_to_compile = atoi(av[3]);
-	config->time_to_debug = atoi(av[4]);
-	config->time_to_refactor = atoi(av[5]);
-	config->number_of_compiles_required = atoi(av[6]);
-	config->dongle_cooldown = atoi(av[7]);
+	config->n_coders = atoi(av[1]);
+	config->burnout = atoi(av[2]);
+	config->compile = atoi(av[3]);
+	config->debug = atoi(av[4]);
+	config->refactor = atoi(av[5]);
+	config->n_compiles = atoi(av[6]);
+	config->cooldown = atoi(av[7]);
 	config->scheduler = av[8];
 }
 

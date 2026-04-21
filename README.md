@@ -27,7 +27,10 @@ le cond_wait unlock le mutex tant que le signal n est pas recu
 
 // global->dongles[i].coder_two = i % n_coders;
 
-mutex for printf function
-check burnout
-dongle cooldown
+mutex for printf function [OK]
+check burnout 
+dongle cooldown [OK]
 edf implementation with queue
+https://codexion-visualizer.sacha-dev.me/
+
+10 55 60 60 60 2 60 edf

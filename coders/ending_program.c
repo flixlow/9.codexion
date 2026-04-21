@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ending_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 16:53:07 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:53:03 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	destroy(t_global *global)
 	int	i;
 
 	i = 0;
-	while (i < global->config.number_of_coders)
+	while (i < global->config.n_coders)
 		pthread_join(global->coders[i++].thread, NULL);
 	pthread_mutex_destroy(&global->mutex);
 	pthread_mutex_destroy(&global->print_mutex);
