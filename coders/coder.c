@@ -6,16 +6,16 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 16:40:03 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:06:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void release_dongle(t_dongle *dongle, long start)
+void release_dongle(t_dongle *dongle, int dongle_cooldown)
 {
+	dongle->last_released = get_time_ms() + dongle_cooldown;
 	pthread_mutex_unlock(&dongle->mutex);
-	dongle->last_released = get_time_ms() - start;
 }
 
 void waiting_to_start(t_global *global)
@@ -36,21 +36,11 @@ void *routine(void *arg)
 	waiting_to_start(coder->global);
 	while (coder->compil_counter < n_compiles_required)
 	{
-		if (!simulation_is_running(coder->global))
-			break;
 		has_taken_a_dongle(coder);
-		if (!simulation_is_running(coder->global))
-			break;
 		is_compiling(coder);
-		if (!simulation_is_running(coder->global))
-			break;
-		release_dongle(coder->dongle_one, coder->global->start);
-		release_dongle(coder->dongle_two, coder->global->start);
-		if (!simulation_is_running(coder->global))
-			break;
+		release_dongle(coder->dongle_one, coder->global->config.dongle_cooldown);
+		release_dongle(coder->dongle_two, coder->global->config.dongle_cooldown);
 		is_debugging(coder);
-		if (!simulation_is_running(coder->global))
-			break;
 		is_refactoring(coder);
 		coder->compil_counter++;
 	}

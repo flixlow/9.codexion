@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 16:43:43 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:11:40 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int	is_compile_done(t_global *global)
 {
 	int	i;
+	int	number_of_compiles_required;
 
 	i = 0;
+	number_of_compiles_required = global->config.number_of_compiles_required;
 	while (i < global->config.number_of_coders)
-	{
-		if (global->coders[i].compil_counter < global->config.number_of_compiles_required)
+		if (global->coders[i++].compil_counter < number_of_compiles_required)
 			return (0);
-		i++;
-	}
 	return (1);
 }
 

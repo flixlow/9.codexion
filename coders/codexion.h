@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 14:59:37 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:04:12 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,10 @@ typedef struct s_global
 int check_args(int ac, char **av);
 int check_arg(char *arg);
 void stock_config(char **av, t_config *config);
-// error.c
+// ending_program.c
 int free_all(t_global *global);
 int ft_error(int error);
+int	destroy(t_global *global);
 // init.c
 int init_dongles_and_coders(t_global *global);
 int init_thread(t_global *global);
@@ -89,10 +90,10 @@ int simulation_is_running(t_global *global);
 void is_debugging(t_coder *coder);
 void is_refactoring(t_coder *coder);
 void is_compiling(t_coder *coder);
-void try_to_take(t_coder *coder, t_dongle *dongle);
+int try_to_take(t_coder *coder, t_dongle *dongle);
 void has_taken_a_dongle(t_coder *coder);
 // coder.c
-void release_dongle(t_dongle *dongle, long start);
+void release_dongle(t_dongle *dongle, int dongle_cooldown);
 void waiting_to_start(t_global *global);
 void *routine(void *arg);
 
