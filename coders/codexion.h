@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 08:45:29 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:10:16 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,31 @@ typedef struct s_global
 	long			start;
 } t_global;
 
+// parsing.c
 int		check_args(int ac, char **av);
 int		check_arg(char *arg);
 void	stock_config(char **av, t_config *config);
-
+// error.c
 int		free_all(t_global *global);
 int		ft_error(int error);
-
+// init.c
 int		init_dongles_and_coders(t_global *global);
 int		init_thread(t_global *global);
-
+// monitor.c
 int		monitor(t_global *global);
-void	*routine(void *arg);
-
+void	start(t_global *global);
+// utils.c
 long	get_time_ms(void);
 void	print(pthread_mutex_t mutex, long time, int name, char *message);
-void	release_dongles(t_coder *coder);
-
+//action.c
 void	is_debugging(t_coder *coder);
 void	is_refactoring(t_coder *coder);
 void	is_compiling(t_coder *coder);
-void	release_dongles(t_coder *coder);
+void	try_to_take(t_coder *coder, t_dongle *dongle);
 void	has_taken_a_dongle(t_coder * coder);
+// coder.c
+void	release_dongles(t_coder *coder);
+void	waiting_to_start(t_global *global);
+void	*routine(void *arg);
 
 #endif
