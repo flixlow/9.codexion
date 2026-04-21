@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 17:55:06 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 08:29:04 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_dongle
 	int				name;
 	int				is_available;
 	int				*queue;
+	long			last_released;
 	pthread_mutex_t	mutex;
 } t_dongle;
 

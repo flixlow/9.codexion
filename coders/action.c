@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 18:16:17 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 08:28:14 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void has_taken_a_dongle(t_coder * coder)
 		pthread_mutex_lock(&coder->dongle_one->mutex);
 		time = get_time_ms() - coder->global->start;
 		print(coder->global->mutex, time, coder->name, "has taken a dongle");
-		time = get_time_ms() - coder->global->start;
 		pthread_mutex_lock(&coder->dongle_two->mutex);
+		time = get_time_ms() - coder->global->start;
 		print(coder->global->mutex, time, coder->name, "has taken a dongle");
 	}
 	else
