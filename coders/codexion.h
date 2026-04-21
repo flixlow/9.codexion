@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 19:54:32 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 23:57:59 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,6 @@ typedef struct s_global
 	long			start;
 }	t_global;
 
-// parsing.c
-int		check_args(int ac, char **av);
-int		check_arg(char *arg);
-void	stock_config(char **av, t_config *config);
-// ending_program.c
-int		free_all(t_global *global);
-int		ft_error(int error);
-int		destroy(t_global *global);
-// init.c
-int		init_dongles(t_global *global);
-int		init_coders(t_global *global);
-int		init_thread(t_global *global);
-// monitor.c
-int		monitor(t_global *global);
-void	start(t_global *global);
-// utils.c
-long	get_time_ms(void);
-void	print(t_global *global, int name, char *message);
-int		simulation_is_running(t_global *global);
 // action.c
 void	is_debugging(t_coder *coder);
 void	is_refactoring(t_coder *coder);
@@ -96,5 +77,25 @@ void	has_taken_a_dongle(t_coder *coder);
 void	release_dongle(t_dongle *dongle, int dongle_cooldown);
 void	waiting_to_start(t_global *global);
 void	*routine(void *arg);
+// ending_program.c
+int		destroy(t_global *global);
+int		free_all(t_global *global);
+int		ft_error(int error);
+// init.c
+int		init_thread(t_global *global);
+int		init_dongles(t_global *global);
+int		init_coders(t_global *global);
+// monitor.c
+int		is_compile_done(t_global *global);
+void	start(t_global *global);
+int		monitor(t_global *global);
+// parsing.c
+void	stock_config(char **av, t_config *config);
+int		check_arg(char *arg);
+int		check_args(int ac, char **av);
+// utils.c
+int		simulation_is_running(t_global *global);
+void	print(t_global *global, int name, char *message);
+long	get_time_ms(void);
 
 #endif
