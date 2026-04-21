@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 09:47:26 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:52 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@ void waiting_to_start(t_global *global)
 void *routine(void *arg)
 {
 	t_coder		*coder;
-	int			compil_counter;
+	int			n_compiles_required;
 
 	coder = (t_coder *)arg;
-	compil_counter = 0;
+	n_compiles_required = coder->global->config.number_of_compiles_required;
 	waiting_to_start(coder->global);
-	while (compil_counter < coder->global->config.number_of_compiles_required)
+	while (coder->compil_counter < n_compiles_required)
 	{
 		has_taken_a_dongle(coder);
 		is_compiling(coder);
 		release_dongles(coder);
 		is_debugging(coder);
 		is_refactoring(coder);
-		compil_counter++;
-		if (coder->global->burnout)
+		coder->compil_counter++;
+		if (simulation_stop(coder->global))
 			break ;
 	}
 	// printf("[OK] %d has compilied %d times.", coder->name, compil_counter);

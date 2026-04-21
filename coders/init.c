@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 09:22:46 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:19:22 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int init_thread(t_global *global)
 
 	i = 0;
 	pthread_mutex_init(&global->mutex, NULL);
+	pthread_mutex_init(&global->print_mutex, NULL);
+	pthread_mutex_init(&global->stop_mutex, NULL);
 	pthread_cond_init(&global->cond, NULL);
 	while (i < global->config.number_of_coders)
 	{
@@ -27,6 +29,11 @@ int init_thread(t_global *global)
 		i++;
 	}
 	monitor(global);
+	pthread_mutex_destroy(&global->mutex);
+	pthread_mutex_destroy(&global->print_mutex);
+	pthread_mutex_destroy(&global->stop_mutex);
+	pthread_cond_destroy(&global->cond);
+	free_all(global);
 	return (0);
 }
 
