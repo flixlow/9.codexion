@@ -6,18 +6,11 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 08:28:14 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 08:58:52 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "codexion.h"
-
-void print(pthread_mutex_t mutex, long time, int name, char *message)
-{
-	pthread_mutex_lock(&mutex);
-	printf("%ld %d %s\n", time, name, message);
-	pthread_mutex_unlock(&mutex);
-}
 
 void is_debugging(t_coder *coder)
 {	
@@ -56,32 +49,31 @@ void is_compiling(t_coder *coder)
 	usleep(coder->global->config.time_to_compile * 1000);
 }
 
-void release_dongles(t_coder *coder)
+void try_to_take(t_coder *coder, t_dongle *dongle_one, t_dongle *dongle_two)
 {
-	pthread_mutex_unlock(&coder->dongle_two->mutex);
-	pthread_mutex_unlock(&coder->dongle_one->mutex);
+	int		cooldown;
+	long	time;
+	long	time_to_wait;
+
+	cooldown = coder->global->config.dongle_cooldown;
+	time_to_wait = get_time_ms() - (dongle_one->last_released + cooldown);
+	if (time_to_wait < 0)
+		usleep(time_to_wait * -1 * 1000);
+	pthread_mutex_lock(&dongle_one->mutex);
+	time = get_time_ms() - coder->global->start;
+	print(coder->global->mutex, time, coder->name, "has taken a dongle");
+	time_to_wait = get_time_ms() - (dongle_one->last_released + cooldown);
+	if (time_to_wait < 0)
+		usleep(time_to_wait * -1 * 1000);
+	pthread_mutex_lock(&dongle_two->mutex);
+	time = get_time_ms() - coder->global->start;
+	print(coder->global->mutex, time, coder->name, "has taken a dongle");
 }
 
-void has_taken_a_dongle(t_coder * coder)
+void has_taken_a_dongle(t_coder *coder)
 {
-	long	time;
-
 	if (coder->dongle_one->name < coder->dongle_two->name)
-	{
-		pthread_mutex_lock(&coder->dongle_one->mutex);
-		time = get_time_ms() - coder->global->start;
-		print(coder->global->mutex, time, coder->name, "has taken a dongle");
-		pthread_mutex_lock(&coder->dongle_two->mutex);
-		time = get_time_ms() - coder->global->start;
-		print(coder->global->mutex, time, coder->name, "has taken a dongle");
-	}
+		try_to_take(coder, coder->dongle_one, coder->dongle_two);
 	else
-	{
-		pthread_mutex_lock(&coder->dongle_two->mutex);
-		time = get_time_ms() - coder->global->start;
-		print(coder->global->mutex, time, coder->name, "has taken a dongle");
-		pthread_mutex_lock(&coder->dongle_one->mutex);
-		time = get_time_ms() - coder->global->start;
-		print(coder->global->mutex, time, coder->name, "has taken a dongle");
-	}
+		try_to_take(coder, coder->dongle_two, coder->dongle_one);
 }

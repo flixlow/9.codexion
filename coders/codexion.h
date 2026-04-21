@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 08:29:04 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 08:45:29 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int		monitor(t_global *global);
 void	*routine(void *arg);
 
 long	get_time_ms(void);
+void	print(pthread_mutex_t mutex, long time, int name, char *message);
+void	release_dongles(t_coder *coder);
 
 void	is_debugging(t_coder *coder);
 void	is_refactoring(t_coder *coder);
