@@ -6,11 +6,25 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 11:33:46 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:43:43 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+int	is_compile_done(t_global *global)
+{
+	int	i;
+
+	i = 0;
+	while (i < global->config.number_of_coders)
+	{
+		if (global->coders[i].compil_counter < global->config.number_of_compiles_required)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void start(t_global *global)
 {
@@ -25,25 +39,24 @@ int monitor(t_global *global)
 	int i;
 
 	start(global);
-	while (!global->burnout)
+	while (simulation_is_running(global))
 	{
+		if (is_compile_done(global))
+			break ;
 		i = 0;
 		while (i < global->config.number_of_coders)
 		{
-			if (get_time_ms() > global->coders[i].last_compile_start + global->config.time_to_burnout)
+			if (global->coders[i].burnout_timing <= get_time_ms())
 			{
 				pthread_mutex_lock(&global->stop_mutex);
 				global->burnout = 1;
 				pthread_mutex_unlock(&global->stop_mutex);
-				print(global, get_time_ms(), global->coders[i].name, "burned out");
-				break;
+				print(global, global->coders[i].name, "burned out");
+				return (0);
 			}
 			i++;
 		}
 		usleep(1000);
 	}
-	i = 0;
-	while (i < global->config.number_of_coders)
-		pthread_join(global->coders[i++].thread, NULL);
 	return (0);
 }

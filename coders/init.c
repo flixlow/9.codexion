@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 11:19:22 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:49:21 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,14 @@ int init_thread(t_global *global)
 			return (ft_error(6));
 		i++;
 	}
-	monitor(global);
-	pthread_mutex_destroy(&global->mutex);
-	pthread_mutex_destroy(&global->print_mutex);
-	pthread_mutex_destroy(&global->stop_mutex);
-	pthread_cond_destroy(&global->cond);
-	free_all(global);
 	return (0);
 }
 
 int init_dongles_and_coders(t_global *global)
 {
-	int	i;
-	int	n_coders;
-	int	next;
+	int i;
+	int n_coders;
+	int next;
 
 	i = 0;
 	n_coders = global->config.number_of_coders;
@@ -53,12 +47,13 @@ int init_dongles_and_coders(t_global *global)
 	{
 		global->dongles[i].name = i;
 		global->dongles[i].last_released = 0;
-		pthread_mutex_init(&global->dongles[i++].mutex, NULL);		
+		pthread_mutex_init(&global->dongles[i++].mutex, NULL);
 	}
 	i = 0;
 	while (i < n_coders)
 	{
 		next = (i + 1) % n_coders;
+		global->coders[i].burnout_timing = global->config.time_to_burnout + get_time_ms();
 		global->coders[i].name = i;
 		global->coders[i].global = global;
 		global->coders[i].dongle_one = &global->dongles[i];
