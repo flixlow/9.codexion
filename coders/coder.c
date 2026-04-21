@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   coders.c                                           :+:      :+:    :+:   */
+/*   coder.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 09:06:47 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:47:26 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void *routine(void *arg)
 		is_debugging(coder);
 		is_refactoring(coder);
 		compil_counter++;
+		if (coder->global->burnout)
+			break ;
 	}
 	// printf("[OK] %d has compilied %d times.", coder->name, compil_counter);
 	return (NULL);

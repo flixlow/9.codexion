@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 09:02:35 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:19:02 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void is_compiling(t_coder *coder)
 		coder->name,
 		"is compiling"
 	);
-	coder->last_compilation = current_time;
+	coder->last_compile_start = current_time;
 	usleep(coder->global->config.time_to_compile * 1000);
 }
 

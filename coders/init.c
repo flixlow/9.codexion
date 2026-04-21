@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/20 14:09:15 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:22:46 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int init_dongles_and_coders(t_global *global)
 	while (i < n_coders)
 	{
 		global->dongles[i].name = i;
+		global->dongles[i].last_released = 0;
 		pthread_mutex_init(&global->dongles[i++].mutex, NULL);		
 	}
 	i = 0;

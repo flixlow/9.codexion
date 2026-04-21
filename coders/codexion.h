@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 09:10:16 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:38:35 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_dongle
 typedef struct s_coder
 {
 	int			name;
-	long		last_compilation;
+	long		last_compile_start;
 	t_global	*global;
 	pthread_t	thread;
 	t_dongle	*dongle_one;
@@ -61,6 +61,7 @@ typedef struct s_global
 	pthread_t		monitor;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
+	int				burnout;
 	long			start;
 } t_global;
 
