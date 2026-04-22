@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 19:54:42 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 11:13:15 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	init_thread(t_global *global)
+int	init_mutex_cond(t_global * global)
 {
 	int	i;
 
@@ -20,7 +20,18 @@ int	init_thread(t_global *global)
 	pthread_mutex_init(&global->mutex, NULL);
 	pthread_mutex_init(&global->print_mutex, NULL);
 	pthread_mutex_init(&global->stop_mutex, NULL);
+	while (i < global->config.n_coders)
+		pthread_mutex_init(&global->coders[i++].coder_mutex, NULL);
 	pthread_cond_init(&global->cond, NULL);
+	return (0);
+}
+
+int	init_thread(t_global *global)
+{
+	int	i;
+
+	i = 0;
+	init_mutex_cond(global);
 	while (i < global->config.n_coders)
 	{
 		if (pthread_create(
@@ -63,6 +74,7 @@ int	init_coders(t_global *global)
 		next = (i + 1) % global->config.n_coders;
 		global->coders[i].burnout = global->config.burnout + get_time_ms();
 		global->coders[i].name = i;
+		global->coders[i].compil_counter = 0;
 		global->coders[i].global = global;
 		global->coders[i].dongle_one = &global->dongles[i];
 		global->coders[i].dongle_two = &global->dongles[next];

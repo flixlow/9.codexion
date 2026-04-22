@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   coder.c                                            :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 19:55:46 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 11:09:38 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	waiting_to_start(coder->global);
-	while (coder->compil_counter < coder->global->config.n_compiles)
+	while (get_compil_counter(coder) < coder->global->config.n_compiles)
 	{
 		has_taken_a_dongle(coder);
 		is_compiling(coder);
@@ -40,9 +40,13 @@ void	*routine(void *arg)
 		release_dongle(coder->dongle_two, coder->global->config.cooldown);
 		is_debugging(coder);
 		is_refactoring(coder);
-		coder->compil_counter++;
+		pthread_mutex_lock(&coder->coder_mutex);
+		coder->compil_counter++;		
+		pthread_mutex_unlock(&coder->coder_mutex);
 	}
+	pthread_mutex_lock(&coder->coder_mutex);
 	coder->burnout = get_time_ms() * 2;
+	pthread_mutex_unlock(&coder->coder_mutex);
 	return (NULL);
 }
 

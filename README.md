@@ -34,3 +34,4 @@ edf implementation with queue
 https://codexion-visualizer.sacha-dev.me/
 
 10 55 60 60 60 2 60 edf
+mutex sur burnout de chaque coder entre l acces depuis le monitor et le codeur qui change sa propre valeur

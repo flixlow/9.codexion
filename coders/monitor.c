@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 19:55:07 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 11:23:16 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+int	get_compil_counter(t_coder *coder)
+{
+	int	compil_counter;
+
+	pthread_mutex_lock(&coder->coder_mutex);
+	compil_counter = coder->compil_counter;
+	pthread_mutex_unlock(&coder->coder_mutex);
+	return (compil_counter);
+}
 
 int	is_compile_done(t_global *global)
 {
@@ -18,7 +28,7 @@ int	is_compile_done(t_global *global)
 
 	i = 0;
 	while (i < global->config.n_coders)
-		if (global->coders[i++].compil_counter < global->config.n_compiles)
+		if (get_compil_counter(&global->coders[i++]) < global->config.n_compiles)
 			return (0);
 	return (1);
 }
@@ -31,9 +41,19 @@ void	start(t_global *global)
 	pthread_mutex_unlock(&global->mutex);
 }
 
+long	get_coder_burnout(t_coder *coder)
+{
+	long	coder_burnout;
+
+	pthread_mutex_lock(&coder->coder_mutex);
+	coder_burnout = coder->burnout;
+	pthread_mutex_unlock(&coder->coder_mutex);
+	return (coder_burnout);	
+}
+
 int	monitor(t_global *global)
 {
-	int	i;
+	int		i;
 
 	start(global);
 	while (simulation_is_running(global))
@@ -43,7 +63,7 @@ int	monitor(t_global *global)
 		i = 0;
 		while (i < global->config.n_coders)
 		{
-			if (global->coders[i].burnout <= get_time_ms())
+			if (get_coder_burnout(&global->coders[i]) <= get_time_ms())
 			{
 				pthread_mutex_lock(&global->stop_mutex);
 				global->burnout = 1;

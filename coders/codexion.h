@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 23:57:59 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 11:06:20 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ typedef struct s_dongle
 
 typedef struct s_coder
 {
-	int			name;
-	int			compil_counter;
-	long		burnout;
-	t_global	*global;
-	pthread_t	thread;
-	t_dongle	*dongle_one;
-	t_dongle	*dongle_two;
+	int				name;
+	int				compil_counter;
+	long			burnout;
+	t_global		*global;
+	pthread_t		thread;
+	pthread_mutex_t coder_mutex;
+	t_dongle		*dongle_one;
+	t_dongle		*dongle_two;
 }	t_coder;
 
 typedef struct s_global
@@ -86,6 +87,7 @@ int		init_thread(t_global *global);
 int		init_dongles(t_global *global);
 int		init_coders(t_global *global);
 // monitor.c
+int		get_compil_counter(t_coder *coder);
 int		is_compile_done(t_global *global);
 void	start(t_global *global);
 int		monitor(t_global *global);
