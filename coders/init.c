@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 13:39:48 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 15:38:09 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	init_dongles(t_global *global)
 		return (ft_error(5));
 	while (i < global->config.n_coders)
 	{
+		global->dongles[i].config_cooldown = global->config.cooldown;
 		global->dongles[i].name = i;
 		global->dongles[i].cooldown = global->config.cooldown + get_time_ms();
 		pthread_mutex_init(&global->dongles[i].mutex, NULL);

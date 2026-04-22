@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 13:37:31 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 16:01:49 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,48 @@ void	is_refactoring(t_coder *coder)
 	usleep(coder->global->config.refactor * 1000);
 }
 
-void	is_compiling(t_coder *coder)
+int	is_compiling(t_coder *coder)
 {
 	if (!simulation_is_running(coder->global))
-		return ;
+	{
+		release_dongle(coder->dongle_one);
+		release_dongle(coder->dongle_two);
+		return (1);
+	}
 	print(coder->global, coder->name, "is compiling");
 	pthread_mutex_lock(&coder->coder_mutex);
 	coder->burnout = get_time_ms() + coder->global->config.burnout;
 	pthread_mutex_unlock(&coder->coder_mutex);
 	usleep(coder->global->config.compile * 1000);
-}
-
-int	try_to_take(t_coder *coder, t_dongle *dongle)
-{
-	long	time_to_wait;
-
-	if (!simulation_is_running(coder->global))
-		return (1);
-	pthread_mutex_lock(&dongle->mutex);
-	time_to_wait = dongle->cooldown - get_time_ms();
-	if (time_to_wait > 0)
-		usleep(time_to_wait);
-	print(coder->global, coder->name, "has taken a dongle");
 	return (0);
 }
 
-void	has_taken_a_dongle(t_coder *coder)
+int	try_to_take(t_dongle *dongle)
 {
-	if (coder->dongle_one->name < coder->dongle_two->name)
-	{
-		if (try_to_take(coder, coder->dongle_one))
-			return ;
-		if (try_to_take(coder, coder->dongle_two))
-			release_dongle(coder->dongle_one, coder->global->start);
-	}
-	else
-	{
-		if (try_to_take(coder, coder->dongle_two))
-			return ;
-		if (try_to_take(coder, coder->dongle_one))
-			release_dongle(coder->dongle_two, coder->global->start);
-	}
+	pthread_mutex_lock(&dongle->mutex);
+	if (dongle->cooldown - get_time_ms() > 0)
+		{
+			pthread_mutex_unlock(&dongle->mutex);
+			return (0);
+		}
+	return (1);
+}
+
+void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
+{
+	while (simulation_is_running(coder->global))
+		{
+			if (try_to_take(first))
+			{
+				if (try_to_take(second))
+				{
+					print(coder->global, coder->name, "has taken a dongle");
+					print(coder->global, coder->name, "has taken a dongle");
+					break ;
+				}
+				else
+					pthread_mutex_unlock(&first->mutex);
+			}
+			usleep(1000);
+		}
 }

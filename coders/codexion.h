@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 13:37:10 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 15:42:48 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_dongle
 {
 	int				name;
 	int				*queue;
+	int				config_cooldown;
 	long			cooldown;
 	pthread_mutex_t	mutex;
 }	t_dongle;
@@ -71,11 +72,11 @@ typedef struct s_global
 // action.c
 void	is_debugging(t_coder *coder);
 void	is_refactoring(t_coder *coder);
-void	is_compiling(t_coder *coder);
-int		try_to_take(t_coder *coder, t_dongle *dongle);
-void	has_taken_a_dongle(t_coder *coder);
-// coder.c
-void	release_dongle(t_dongle *dongle, int dongle_cooldown);
+int		is_compiling(t_coder *coder);
+int		try_to_take(t_dongle *dongle);
+void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second);
+// monitor.c
+void	release_dongle(t_dongle *dongle);
 void	waiting_to_start(t_global *global);
 void	*routine(void *arg);
 // ending_program.c
