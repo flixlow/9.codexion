@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 16:01:49 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 17:11:25 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,27 @@ int	try_to_take(t_dongle *dongle)
 {
 	pthread_mutex_lock(&dongle->mutex);
 	if (dongle->cooldown - get_time_ms() > 0)
-		{
-			pthread_mutex_unlock(&dongle->mutex);
-			return (0);
-		}
+	{
+		pthread_mutex_unlock(&dongle->mutex);
+		return (0);
+	}
 	return (1);
 }
 
 void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	while (simulation_is_running(coder->global))
+	{
+		if (try_to_take(first))
 		{
-			if (try_to_take(first))
+			if (try_to_take(second))
 			{
-				if (try_to_take(second))
-				{
-					print(coder->global, coder->name, "has taken a dongle");
-					print(coder->global, coder->name, "has taken a dongle");
-					break ;
-				}
-				else
-					pthread_mutex_unlock(&first->mutex);
+				print(coder->global, coder->name, "has taken a dongle");
+				print(coder->global, coder->name, "has taken a dongle");
+				break ;
 			}
-			usleep(1000);
+			else
+				pthread_mutex_unlock(&first->mutex);
 		}
+	}
 }

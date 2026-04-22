@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 13:23:39 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:04:34 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	is_compile_done(t_global *global)
 
 void	start(t_global *global)
 {
-	pthread_mutex_lock(&global->mutex);
+	pthread_mutex_lock(&global->start_mutex);
 	global->start = get_time_ms();
 	pthread_cond_broadcast(&global->cond);
-	pthread_mutex_unlock(&global->mutex);
+	pthread_mutex_unlock(&global->start_mutex);
 }
 
 long	get_coder_burnout(t_coder *coder)

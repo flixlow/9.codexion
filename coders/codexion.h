@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 15:42:48 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:03:59 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ typedef struct s_coder
 
 typedef struct s_global
 {
+	int				burnout;
+	long			start;
 	t_config		config;
 	t_dongle		*dongles;
 	t_coder			*coders;
 	pthread_t		monitor;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	stop_mutex;
 	pthread_cond_t	cond;
-	int				burnout;
-	long			start;
 }	t_global;
 
 // action.c

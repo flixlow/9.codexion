@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 15:43:40 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:04:05 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	release_dongle(t_dongle *dongle)
 
 void	waiting_to_start(t_global *global)
 {
-	pthread_mutex_lock(&global->mutex);
+	pthread_mutex_lock(&global->start_mutex);
 	while (global->start == 0)
-		pthread_cond_wait(&global->cond, &global->mutex);
-	pthread_mutex_unlock(&global->mutex);
+		pthread_cond_wait(&global->cond, &global->start_mutex);
+	pthread_mutex_unlock(&global->start_mutex);
 }
 
 void	*routine(void *arg)
@@ -32,6 +32,8 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	waiting_to_start(coder->global);
+	if (coder->name % 2 == 0 && coder->global->config.n_coders % 2 == 0) 
+		usleep(2000);
 	while (get_compil_counter(coder) < coder->global->config.n_compiles)
 	{
 		if (coder->dongle_one->name < coder->dongle_two->name)

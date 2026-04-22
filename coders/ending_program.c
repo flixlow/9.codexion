@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ending_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 10:56:12 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:07:56 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	destroy(t_global *global)
 	i = 0;
 	while (i < global->config.n_coders)
 		pthread_join(global->coders[i++].thread, NULL);
-	pthread_mutex_destroy(&global->mutex);
+	pthread_mutex_destroy(&global->start_mutex);
 	pthread_mutex_destroy(&global->print_mutex);
 	pthread_mutex_destroy(&global->stop_mutex);
 	i = 0;
