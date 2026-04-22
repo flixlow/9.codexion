@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 11:20:04 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:37:31 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	try_to_take(t_coder *coder, t_dongle *dongle)
 	if (!simulation_is_running(coder->global))
 		return (1);
 	pthread_mutex_lock(&dongle->mutex);
-	time_to_wait = dongle->last_released - get_time_ms();
+	time_to_wait = dongle->cooldown - get_time_ms();
 	if (time_to_wait > 0)
 		usleep(time_to_wait);
 	print(coder->global, coder->name, "has taken a dongle");
