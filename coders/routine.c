@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 12:08:16 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:15:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*routine(void *arg)
 		has_taken_a_dongle(coder);
 		is_compiling(coder);
 		pthread_mutex_lock(&coder->coder_mutex);
-		coder->compil_counter++;		
+		coder->compil_counter++;
 		pthread_mutex_unlock(&coder->coder_mutex);
 		release_dongle(coder->dongle_one, coder->global->config.cooldown);
 		release_dongle(coder->dongle_two, coder->global->config.cooldown);

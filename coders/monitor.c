@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 11:23:16 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:23:39 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int	get_compil_counter(t_coder *coder)
 int	is_compile_done(t_global *global)
 {
 	int	i;
+	int	n_compiles;
 
 	i = 0;
+	n_compiles = global->config.n_compiles;
 	while (i < global->config.n_coders)
-		if (get_compil_counter(&global->coders[i++]) < global->config.n_compiles)
+		if (get_compil_counter(&global->coders[i++]) < n_compiles)
 			return (0);
 	return (1);
 }
@@ -48,7 +50,7 @@ long	get_coder_burnout(t_coder *coder)
 	pthread_mutex_lock(&coder->coder_mutex);
 	coder_burnout = coder->burnout;
 	pthread_mutex_unlock(&coder->coder_mutex);
-	return (coder_burnout);	
+	return (coder_burnout);
 }
 
 int	monitor(t_global *global)

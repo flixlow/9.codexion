@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 11:06:20 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:13:15 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_coder
 	long			burnout;
 	t_global		*global;
 	pthread_t		thread;
-	pthread_mutex_t coder_mutex;
+	pthread_mutex_t	coder_mutex;
 	t_dongle		*dongle_one;
 	t_dongle		*dongle_two;
 }	t_coder;
