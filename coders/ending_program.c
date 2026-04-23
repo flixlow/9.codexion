@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 18:07:56 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 10:12:50 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_error(int error)
 	if (error == 4)
 		fprintf(stderr, "scheduler must be 'edf' or 'fifo'.\n");
 	if (error == 5)
-		fprintf(stderr, "Malloc for dongles and coders failed.\n");
+		fprintf(stderr, "Malloc failed.\n");
 	if (error == 6)
 		fprintf(stderr, "Threads creation failed.\n");
 	return (1);

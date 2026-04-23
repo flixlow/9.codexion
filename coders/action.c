@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 17:11:25 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:45:10 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,52 @@ int	try_to_take(t_dongle *dongle)
 	return (1);
 }
 
+int	am_i_first(t_coder *coder)
+{
+	int	first;
+
+	pthread_mutex_lock(&coder->global->scheduler_mutex);
+	first = coder->global->queue[0];
+	pthread_mutex_unlock(&coder->global->scheduler_mutex);
+	return (first == coder->name);
+}
+
+void	pop_n_push(t_coder *coder)
+{
+	int	i;
+
+	i = 0;
+	while (i < coder->global->config.n_coders
+		&& coder->global->queue[i] != coder->name)
+		i++;
+	while (i < coder->global->config.n_coders - 1)
+	{
+		coder->global->queue[i] = coder->global->queue[i + 1];
+		i++;
+	}
+	coder->global->queue[i] = coder->name;
+}
+
 void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	while (simulation_is_running(coder->global))
 	{
-		if (try_to_take(first))
+		if (am_i_first(coder))
 		{
-			if (try_to_take(second))
+			if (try_to_take(first))
 			{
-				print(coder->global, coder->name, "has taken a dongle");
-				print(coder->global, coder->name, "has taken a dongle");
-				break ;
+				if (try_to_take(second))
+				{
+					print(coder->global, coder->name, "has taken a dongle");
+					print(coder->global, coder->name, "has taken a dongle");
+					if (coder->global->config.scheduler)
+						edf_sort_queue(coder);
+					pop_n_push(coder);
+					break ;
+				}
+				else
+					pthread_mutex_unlock(&first->mutex);
 			}
-			else
-				pthread_mutex_unlock(&first->mutex);
 		}
 	}
 }

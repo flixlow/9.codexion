@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/22 18:03:59 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:44:00 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_config
 	int		refactor;
 	int		n_compiles;
 	int		cooldown;
-	char	*scheduler;
+	int		scheduler;
 }	t_config;
 
 typedef struct s_dongle
@@ -62,7 +62,9 @@ typedef struct s_global
 	t_config		config;
 	t_dongle		*dongles;
 	t_coder			*coders;
+	int				*queue;
 	pthread_t		monitor;
+	pthread_mutex_t	scheduler_mutex;
 	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	stop_mutex;
@@ -90,6 +92,7 @@ int		init_coders(t_global *global);
 // monitor.c
 int		get_compil_counter(t_coder *coder);
 int		is_compile_done(t_global *global);
+long	get_coder_burnout(t_coder *coder);
 void	start(t_global *global);
 int		monitor(t_global *global);
 // parsing.c
@@ -100,5 +103,8 @@ int		check_args(int ac, char **av);
 int		simulation_is_running(t_global *global);
 void	print(t_global *global, int name, char *message);
 long	get_time_ms(void);
+// scheduler.c
+void	edf_sort_queue(t_coder *coder);
+int		init_queue(t_global *global);
 
 #endif

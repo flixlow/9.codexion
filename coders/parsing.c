@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/21 19:49:44 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 13:28:14 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	stock_config(char **av, t_config *config)
 	config->refactor = atoi(av[5]);
 	config->n_compiles = atoi(av[6]);
 	config->cooldown = atoi(av[7]);
-	config->scheduler = av[8];
+	if (strcmp(av[8], "fifo"))
+		config->scheduler = 1;
+	if (strcmp(av[8], "edf"))
+		config->scheduler = 0;
 }
 
 int	check_arg(char *arg)

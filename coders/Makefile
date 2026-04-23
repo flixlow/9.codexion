@@ -4,7 +4,14 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
-SRC = main.c parsing.c ending_program.c init.c monitor.c utils.c action.c routine.c
+SRC = main.c \
+		parsing.c \
+		ending_program.c \
+		init.c monitor.c \
+		utils.c \
+		action.c \
+		routine.c \
+		scheduler.c
 
 OBJ = $(SRC:.c=.o)
 
