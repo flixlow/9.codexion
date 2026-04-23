@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 12:08:50 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:17:10 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	start(t_global *global)
 	pthread_mutex_unlock(&global->start_mutex);
 }
 
-long	get_coder_burnout(t_coder *coder)
+long	get_coder_deadline(t_coder *coder)
 {
 	long	coder_burnout;
 
@@ -65,7 +65,7 @@ int	monitor(t_global *global)
 		i = 0;
 		while (i < global->config.n_coders)
 		{
-			if (get_coder_burnout(&global->coders[i]) <= get_time_ms())
+			if (get_coder_deadline(&global->coders[i]) <= get_time_ms())
 			{
 				pthread_mutex_lock(&global->stop_mutex);
 				global->burnout = 1;

@@ -6,63 +6,97 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:27:37 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:42:49 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:17:57 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "codexion.h"
+#include "codexion.h"
+
+int	try_to_take(t_dongle *dongle)
+{
+	pthread_mutex_lock(&dongle->mutex);
+	if (dongle->cooldown - get_time_ms() > 0)
+	{
+		pthread_mutex_unlock(&dongle->mutex);
+		return (0);
+	}
+	return (1);
+}
+
+int	am_i_first(t_coder *coder)
+{
+	int	first;
+
+	pthread_mutex_lock(&coder->global->scheduler_mutex);
+	first = coder->global->queue[0];
+	pthread_mutex_unlock(&coder->global->scheduler_mutex);
+	return (first == coder->name);
+}
+
+void	pop_n_push(t_coder *coder)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(&coder->global->scheduler_mutex);
+	while (i < coder->global->config.n_coders
+		&& coder->global->queue[i] != coder->name)
+		i++;
+	while (i < coder->global->config.n_coders - 1)
+	{
+		coder->global->queue[i] = coder->global->queue[i + 1];
+		i++;
+	}
+	coder->global->queue[i] = coder->name;
+	pthread_mutex_unlock(&coder->global->scheduler_mutex);
+}
 
 void	edf_sort_queue(t_coder *coder)
 {
 	int		i;
 	int		j;
-	int		swap;
-	t_coder *c;
-	int		*q;
+	int		*queue;
+	t_coder	*coders;
 
 	i = 0;
 	pthread_mutex_lock(&coder->global->scheduler_mutex);
-	q = coder->global->queue;
-	c = coder->global->coders;
+	queue = coder->global->queue;
+	coders = coder->global->coders;
 	while (i < coder->global->config.n_coders)
 	{
 		j = 0;
 		while (j < (coder->global->config.n_coders - 1))
 		{
-			if (get_coder_burnout(&c[q[j]]) > get_coder_burnout(&c[q[j + 1]]))
-			{
-				swap = q[j];
-				q[j] = q[j + 1];
-				q[j + 1] = swap;
-			}
+			if (get_coder_deadline(&coders[queue[j]])
+				> get_coder_deadline(&coders[queue[j + 1]]))
+				ft_swap(&queue[j], &queue[j + 1]);
 			j++;
 		}
 		i++;
 	}
-	i = 0;
 	pthread_mutex_unlock(&coder->global->scheduler_mutex);
 }
 
-int	init_queue(t_global *global)
+void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 {
-	int		i;
-	int		j;
-
-	global->queue = malloc(sizeof(int) * global->config.n_coders);
-	if (global->queue == NULL)
-		return (ft_error(5));
-	i = 0;
-	j = 0;
-	while (j < global->config.n_coders)
+	while (simulation_is_running(coder->global))
 	{
-		global->queue[i++] = j;
-		j += 2;
+		if (am_i_first(coder))
+		{
+			if (try_to_take(first))
+			{
+				if (try_to_take(second))
+				{
+					print(coder->global, coder->name, "has taken a dongle");
+					print(coder->global, coder->name, "has taken a dongle");
+					if (coder->global->config.scheduler)
+						edf_sort_queue(coder);
+					pop_n_push(coder);
+					break ;
+				}
+				else
+					pthread_mutex_unlock(&first->mutex);
+			}
+		}
 	}
-	j = 1;
-	while (j < global->config.n_coders)
-	{
-		global->queue[i++] = j;
-		j += 2;
-	}
-	return (0);
 }

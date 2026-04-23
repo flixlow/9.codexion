@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 10:12:50 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:52:18 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	free_all(t_global *global)
 		free(global->dongles);
 	if (global->coders != NULL)
 		free(global->coders);
+	if (global->queue != NULL)
+		free(global->queue);
 	return (1);
 }
 

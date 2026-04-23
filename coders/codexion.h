@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:44:00 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:16:51 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int		init_dongles(t_global *global);
 int		init_coders(t_global *global);
 // monitor.c
 int		get_compil_counter(t_coder *coder);
+long	get_coder_deadline(t_coder *coder);
 int		is_compile_done(t_global *global);
-long	get_coder_burnout(t_coder *coder);
 void	start(t_global *global);
 int		monitor(t_global *global);
 // parsing.c
@@ -100,6 +100,7 @@ void	stock_config(char **av, t_config *config);
 int		check_arg(char *arg);
 int		check_args(int ac, char **av);
 // utils.c
+void	ft_swap(int *a, int *b);
 int		simulation_is_running(t_global *global);
 void	print(t_global *global, int name, char *message);
 long	get_time_ms(void);

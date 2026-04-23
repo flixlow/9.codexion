@@ -6,11 +6,35 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 11:47:00 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:50:51 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+int	init_queue(t_global *global)
+{
+	int		i;
+	int		j;
+
+	global->queue = malloc(sizeof(int) * global->config.n_coders);
+	if (global->queue == NULL)
+		return (ft_error(5));
+	i = 0;
+	j = 0;
+	while (j < global->config.n_coders)
+	{
+		global->queue[i++] = j;
+		j += 2;
+	}
+	j = 1;
+	while (j < global->config.n_coders)
+	{
+		global->queue[i++] = j;
+		j += 2;
+	}
+	return (0);
+}
 
 int	init_mutex_cond(t_global *global)
 {

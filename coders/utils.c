@@ -6,11 +6,20 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:41:45 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:33:29 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:13:29 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+void ft_swap(int *a, int *b)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
 
 int	simulation_is_running(t_global *global)
 {
