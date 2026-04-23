@@ -1,4 +1,4 @@
-# *This project has been created as part of the 42 curriculum by flauweri*
+*This project has been created as part of the 42 curriculum by flauweri*
 
 ## Description
 
@@ -119,5 +119,5 @@ Research Notes
 - Simulation logic (init → threads → monitor → cleanup)
 - Features: burnout detection, dongle cooldown, EDF scheduling
 
-
-released dongle -> dongle cooldown. might need a mutex
+- probleme de decalage de de quelque milliseconde au lancement
+- single coder infinite loop
