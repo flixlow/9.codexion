@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:05:44 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:54:53 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_compiling(t_coder *coder)
 	}
 	print(coder->global, coder->name, "is compiling");
 	pthread_mutex_lock(&coder->coder_mutex);
-	coder->burnout = get_time_ms() + coder->global->config.burnout;
+	coder->deadline = get_time_ms() + coder->global->config.burnout;
 	pthread_mutex_unlock(&coder->coder_mutex);
 	usleep(coder->global->config.compile * 1000);
 	return (0);

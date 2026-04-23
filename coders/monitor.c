@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:17:10 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:20:23 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,25 @@ int	is_compile_done(t_global *global)
 
 void	start(t_global *global)
 {
+	int	i;
+
+	i = 0;
 	pthread_mutex_lock(&global->start_mutex);
 	global->start = get_time_ms();
+	while (i < global->config.n_coders)
+		global->coders[i++].deadline = global->config.burnout + global->start;
 	pthread_cond_broadcast(&global->cond);
 	pthread_mutex_unlock(&global->start_mutex);
 }
 
 long	get_coder_deadline(t_coder *coder)
 {
-	long	coder_burnout;
+	long	deadline;
 
 	pthread_mutex_lock(&coder->coder_mutex);
-	coder_burnout = coder->burnout;
+	deadline = coder->deadline;
 	pthread_mutex_unlock(&coder->coder_mutex);
-	return (coder_burnout);
+	return (deadline);
 }
 
 int	monitor(t_global *global)
@@ -60,8 +65,6 @@ int	monitor(t_global *global)
 	start(global);
 	while (simulation_is_running(global))
 	{
-		if (is_compile_done(global))
-			break ;
 		i = 0;
 		while (i < global->config.n_coders)
 		{
@@ -75,7 +78,9 @@ int	monitor(t_global *global)
 			}
 			i++;
 		}
-		usleep(1000);
+		if (is_compile_done(global))
+			break ;
+		usleep(1500);
 	}
 	return (0);
 }

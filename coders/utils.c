@@ -6,13 +6,13 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:41:45 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:13:29 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:09:57 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void ft_swap(int *a, int *b)
+void	ft_swap(int *a, int *b)
 {
 	int	tmp;
 
@@ -34,7 +34,6 @@ int	simulation_is_running(t_global *global)
 void	print(t_global *global, int name, char *message)
 {
 	pthread_mutex_lock(&global->print_mutex);
-	(void)name;
 	if (simulation_is_running(global) || strcmp(message, "burned out") == 0)
 		printf("%ld %d %s\n", (get_time_ms() - global->start), ++name, message);
 	pthread_mutex_unlock(&global->print_mutex);

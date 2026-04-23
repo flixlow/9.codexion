@@ -6,7 +6,7 @@ CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
 SRC = main.c \
 		parsing.c \
-		ending_program.c \
+		ending.c \
 		init.c monitor.c \
 		utils.c \
 		action.c \

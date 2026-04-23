@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:50:51 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:05:51 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ int	init_dongles(t_global *global)
 	{
 		global->dongles[i].config_cooldown = global->config.cooldown;
 		global->dongles[i].name = i;
-		global->dongles[i].cooldown = get_time_ms();
-		pthread_mutex_init(&global->dongles[i].mutex, NULL);
+		global->dongles[i].cooldown = 0;
+		global->dongles[i].is_unavailable = 0;
+		pthread_mutex_init(&global->dongles[i].dongle_mutex, NULL);
 		i++;
 	}
 	return (0);
@@ -97,7 +98,6 @@ int	init_coders(t_global *global)
 	while (i < global->config.n_coders)
 	{
 		next = (i + 1) % global->config.n_coders;
-		global->coders[i].burnout = global->config.burnout + get_time_ms();
 		global->coders[i].name = i;
 		global->coders[i].compil_counter = 0;
 		global->coders[i].global = global;

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:16:51 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:04:52 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ typedef struct s_config
 typedef struct s_dongle
 {
 	int				name;
-	int				*queue;
 	int				config_cooldown;
+	int				is_unavailable;
 	long			cooldown;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	dongle_mutex;
 }	t_dongle;
 
 typedef struct s_coder
 {
 	int				name;
 	int				compil_counter;
-	long			burnout;
+	long			deadline;
 	t_global		*global;
 	pthread_t		thread;
 	pthread_mutex_t	coder_mutex;
@@ -79,7 +79,7 @@ int		try_to_take(t_dongle *dongle);
 void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second);
 // monitor.c
 void	release_dongle(t_dongle *dongle);
-void	waiting_to_start(t_global *global);
+void	waiting_to_start(t_coder *coder);
 void	*routine(void *arg);
 // ending_program.c
 int		destroy(t_global *global);

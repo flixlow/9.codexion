@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:27:37 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:17:57 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:21:19 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	try_to_take(t_dongle *dongle)
 {
-	pthread_mutex_lock(&dongle->mutex);
-	if (dongle->cooldown - get_time_ms() > 0)
+	pthread_mutex_lock(&dongle->dongle_mutex);
+	if (dongle->is_unavailable || (dongle->cooldown - get_time_ms() > 0))
 	{
-		pthread_mutex_unlock(&dongle->mutex);
+		pthread_mutex_unlock(&dongle->dongle_mutex);
 		return (0);
 	}
+	dongle->is_unavailable = 1;
+	pthread_mutex_unlock(&dongle->dongle_mutex);
 	return (1);
 }
 
@@ -95,7 +97,7 @@ void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 					break ;
 				}
 				else
-					pthread_mutex_unlock(&first->mutex);
+					release_dongle(first);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:42:24 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:21:04 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 void	release_dongle(t_dongle *dongle)
 {
+	pthread_mutex_lock(&dongle->dongle_mutex);
+	dongle->is_unavailable = 0;
 	dongle->cooldown = get_time_ms() + dongle->config_cooldown;
-	pthread_mutex_unlock(&dongle->mutex);
+	pthread_mutex_unlock(&dongle->dongle_mutex);
 }
 
-void	waiting_to_start(t_global *global)
+void	waiting_to_start(t_coder *coder)
 {
-	pthread_mutex_lock(&global->start_mutex);
-	while (global->start == 0)
-		pthread_cond_wait(&global->cond, &global->start_mutex);
-	pthread_mutex_unlock(&global->start_mutex);
+	pthread_mutex_lock(&coder->global->start_mutex);
+	while (coder->global->start == 0)
+		pthread_cond_wait(&coder->global->cond, &coder->global->start_mutex);
+	pthread_mutex_unlock(&coder->global->start_mutex);
+	if (coder->name % 2)
+		usleep(1500);
 }
 
 void	*routine(void *arg)
@@ -31,7 +35,7 @@ void	*routine(void *arg)
 	t_coder	*coder;
 
 	coder = (t_coder *)arg;
-	waiting_to_start(coder->global);
+	waiting_to_start(coder);
 	while (get_compil_counter(coder) < coder->global->config.n_compiles)
 	{
 		if (coder->dongle_one->name < coder->dongle_two->name)
@@ -49,7 +53,7 @@ void	*routine(void *arg)
 		is_refactoring(coder);
 	}
 	pthread_mutex_lock(&coder->coder_mutex);
-	coder->burnout = get_time_ms() * 2;
+	coder->deadline = get_time_ms() * 2;
 	pthread_mutex_unlock(&coder->coder_mutex);
 	return (NULL);
 }
