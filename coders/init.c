@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 17:05:51 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/12 18:23:08 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@ int	init_mutex_cond(t_global *global)
 	pthread_mutex_init(&global->start_mutex, NULL);
 	pthread_mutex_init(&global->print_mutex, NULL);
 	pthread_mutex_init(&global->stop_mutex, NULL);
+	pthread_mutex_init(&global->scheduler_mutex, NULL);
 	while (i < global->config.n_coders)
-		pthread_mutex_init(&global->coders[i++].coder_mutex, NULL);
+	{
+		pthread_mutex_init(&global->dongles[i].dongle_mutex, NULL);
+		pthread_mutex_init(&global->coders[i].coder_mutex, NULL);
+		i++;
+	}
 	pthread_cond_init(&global->cond, NULL);
 	return (0);
 }
@@ -80,7 +85,6 @@ int	init_dongles(t_global *global)
 		global->dongles[i].name = i;
 		global->dongles[i].cooldown = 0;
 		global->dongles[i].is_unavailable = 0;
-		pthread_mutex_init(&global->dongles[i].dongle_mutex, NULL);
 		i++;
 	}
 	return (0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ending_program.c                                   :+:      :+:    :+:   */
+/*   ending.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 17:54:48 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 14:52:18 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/12 18:26:57 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ int	destroy(t_global *global)
 	pthread_mutex_destroy(&global->start_mutex);
 	pthread_mutex_destroy(&global->print_mutex);
 	pthread_mutex_destroy(&global->stop_mutex);
+	pthread_mutex_destroy(&global->scheduler_mutex);
 	i = 0;
 	while (i < global->config.n_coders)
-		pthread_mutex_destroy(&global->coders[i++].coder_mutex);
+	{
+		pthread_mutex_destroy(&global->dongles[i].dongle_mutex);
+		pthread_mutex_destroy(&global->coders[i].coder_mutex);
+		i++;
+	}
 	pthread_cond_destroy(&global->cond);
 	free_all(global);
 	return (0);

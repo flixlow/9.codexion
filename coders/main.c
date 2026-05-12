@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:13:53 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 15:03:46 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/12 16:35:42 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int	main(int ac, char **av)
 		return (1);
 	stock_config(av, &global.config);
 	if (init_all(&global))
-		return (free_all(&global));
+		return (1);
 	monitor(&global);
 	destroy(&global);
-	printf("\e[1;32m[OK] End of the program.\e[0m");
 	return (0);
 }

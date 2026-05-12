@@ -4,14 +4,15 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -pthread -g3
 
-SRC = main.c \
-		parsing.c \
-		ending.c \
-		init.c monitor.c \
-		utils.c \
-		action.c \
-		routine.c \
-		scheduler.c
+SRC = coders/main.c \
+		coders/parsing.c \
+		coders/ending.c \
+		coders/init.c \
+		coders/monitor.c \
+		coders/utils.c \
+		coders/action.c \
+		coders/routine.c \
+		coders/scheduler.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -20,7 +21,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 		$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.c codexion.h Makefile
+%.o: %.c coders/codexion.h Makefile
 		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

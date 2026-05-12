@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 18:21:04 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/12 17:06:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*routine(void *arg)
 		is_refactoring(coder);
 	}
 	pthread_mutex_lock(&coder->coder_mutex);
-	coder->deadline = get_time_ms() * 2;
+	coder->deadline = get_time_ms() + 100000000;
 	pthread_mutex_unlock(&coder->coder_mutex);
 	return (NULL);
 }
