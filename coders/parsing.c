@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:01:03 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 17:26:53 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:10:40 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	check_arg(char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '0' && !arg[1])
-		return (0);
 	while (arg[i])
 	{
 		if (!(arg[i] >= '0' && arg[i] <= '9'))
@@ -43,7 +41,7 @@ int	check_arg(char *arg)
 	if (strlen(arg) > 9)
 		return (ft_error(2));
 	if (atoi(arg) == 0)
-		return (ft_error(3));
+		return (ft_error(1));
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/05/13 13:26:31 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:58:40 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	monitor(t_global *global)
 		}
 		if (is_compile_done(global))
 			break ;
-		usleep(1500);
+		usleep(2000);
 	}
 	return (0);
 }
