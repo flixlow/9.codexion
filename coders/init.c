@@ -6,16 +6,16 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:03:57 by flauweri          #+#    #+#             */
-/*   Updated: 2026/05/13 13:57:29 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:40:47 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int init_queue(t_global *global)
+int	init_queue(t_global *global)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	global->queue = malloc(sizeof(int) * global->config.n_coders);
 	if (global->queue == NULL)
@@ -36,9 +36,9 @@ int init_queue(t_global *global)
 	return (0);
 }
 
-int init_mutex_cond(t_global *global)
+int	init_mutex_cond(t_global *global)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_init(&global->start_mutex, NULL);
@@ -55,9 +55,9 @@ int init_mutex_cond(t_global *global)
 	return (0);
 }
 
-int init_thread(t_global *global)
+int	init_thread(t_global *global)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	init_mutex_cond(global);
@@ -79,9 +79,9 @@ int init_thread(t_global *global)
 	return (0);
 }
 
-int init_dongles(t_global *global)
+int	init_dongles(t_global *global)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	global->dongles = malloc(sizeof(t_dongle) * global->config.n_coders);
@@ -98,10 +98,10 @@ int init_dongles(t_global *global)
 	return (0);
 }
 
-int init_coders(t_global *global)
+int	init_coders(t_global *global)
 {
-	int i;
-	int next;
+	int	i;
+	int	next;
 
 	i = 0;
 	global->coders = malloc(sizeof(t_coder) * global->config.n_coders);

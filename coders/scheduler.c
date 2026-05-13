@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:27:37 by flauweri          #+#    #+#             */
-/*   Updated: 2026/05/12 17:49:46 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:42:18 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ void	has_taken_a_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 					release_dongle(first);
 			}
 		}
-		// usleep(500);
+		usleep(500);
 	}
 }
