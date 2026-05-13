@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:21:08 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 18:20:23 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:26:31 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	start(t_global *global)
 	i = 0;
 	pthread_mutex_lock(&global->start_mutex);
 	global->start = get_time_ms();
-	while (i < global->config.n_coders)
+	while (i < global->created)
 		global->coders[i++].deadline = global->config.burnout + global->start;
 	pthread_cond_broadcast(&global->cond);
 	pthread_mutex_unlock(&global->start_mutex);

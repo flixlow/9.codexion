@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 09:06:20 by flauweri          #+#    #+#             */
-/*   Updated: 2026/05/12 17:06:47 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:28:31 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	waiting_to_start(coder);
-	while (get_compil_counter(coder) < coder->global->config.n_compiles)
+	while (simulation_is_running(coder->global) &&
+	(get_compil_counter(coder) < coder->global->config.n_compiles))
 	{
 		if (coder->dongle_one->name < coder->dongle_two->name)
 			has_taken_a_dongle(coder, coder->dongle_one, coder->dongle_two);

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:32:14 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 18:04:52 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:19:14 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_coder
 typedef struct s_global
 {
 	int				burnout;
+	int				created;
 	long			start;
 	t_config		config;
 	t_dongle		*dongles;

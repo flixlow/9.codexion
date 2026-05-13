@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:08:28 by flauweri          #+#    #+#             */
-/*   Updated: 2026/04/23 16:54:53 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:37:07 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,29 @@
 
 void	is_debugging(t_coder *coder)
 {
-	if (!simulation_is_running(coder->global))
-		return ;
+	long	start;
+
+	start = get_time_ms();
+	while (simulation_is_running(coder->global) && (get_time_ms() - start) < coder->global->config.debug)
+		usleep(1000);
 	print(coder->global, coder->name, "is debugging");
-	usleep(coder->global->config.debug * 1000);
 }
 
 void	is_refactoring(t_coder *coder)
 {
-	if (!simulation_is_running(coder->global))
-		return ;
+	long	start;
+
+	start = get_time_ms();
+	while (simulation_is_running(coder->global) && (get_time_ms() - start) < coder->global->config.refactor)
+		usleep(1000);
 	print(coder->global, coder->name, "is refactoring");
-	usleep(coder->global->config.refactor * 1000);
 }
 
 int	is_compiling(t_coder *coder)
 {
+	long	start;
+
+	start = get_time_ms();
 	if (!simulation_is_running(coder->global))
 	{
 		release_dongle(coder->dongle_one);
@@ -40,6 +47,7 @@ int	is_compiling(t_coder *coder)
 	pthread_mutex_lock(&coder->coder_mutex);
 	coder->deadline = get_time_ms() + coder->global->config.burnout;
 	pthread_mutex_unlock(&coder->coder_mutex);
-	usleep(coder->global->config.compile * 1000);
+	while (simulation_is_running(coder->global) && (get_time_ms() - start) < coder->global->config.compile)
+		usleep(1000);
 	return (0);
 }

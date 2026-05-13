@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:13:53 by flauweri          #+#    #+#             */
-/*   Updated: 2026/05/12 16:35:42 by flauweri         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:04:39 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	init_all(t_global *global)
 	if (init_coders(global))
 		return (free_all(global));
 	if (init_queue(global))
-		return (free_all(global));
-	if (init_thread(global))
 		return (free_all(global));
 	return (0);
 }
@@ -35,6 +33,8 @@ int	main(int ac, char **av)
 	stock_config(av, &global.config);
 	if (init_all(&global))
 		return (1);
+	if (init_thread(&global))
+		return (destroy(&global));
 	monitor(&global);
 	destroy(&global);
 	return (0);

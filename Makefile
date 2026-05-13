@@ -2,7 +2,7 @@ NAME = codexion
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -g3
+CFLAGS = -Wall -Werror -Wextra -pthread
 
 SRC = coders/main.c \
 		coders/parsing.c \
@@ -32,4 +32,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all re fclean clean bonus
+.PHONY: all re fclean clean
